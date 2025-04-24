@@ -9,5 +9,8 @@ COPY . .
 
 RUN npm ci --production
 
+ARG PORT=3000
+EXPOSE ${PORT}
+
 # 預設啟動指令
 CMD ["npm", "run", "start"]
