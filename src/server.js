@@ -5,6 +5,9 @@ const { connectDB } = require('./config/database'); // 引入資料庫連線模�
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 載入路由
+const userRouter = require('./routes/user');
+
 // 中介軟體 (Middleware)
 app.use(cors());
 app.use(express.json()); // 用於解析 JSON 請求
@@ -12,13 +15,15 @@ app.use(express.urlencoded({ extended: true })); // 用於解析 URL 編碼的�
 
 // 健康檢查路由（供 docker healthcheck 使用）
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK' });
+  res.status(200);
+  res.send('OK');
 });
 
 // 基本路由
 app.get('/', (req, res) => {
   res.send('伺服器運行中');
 });
+app.use('/api/users', userRouter);
 
 // 啟動伺服器並連接資料庫
 const startServer = async () => {
